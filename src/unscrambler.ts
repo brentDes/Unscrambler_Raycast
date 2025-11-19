@@ -5,6 +5,9 @@
 export interface UnscrambleResult {
   word: string;
   length: number;
+  definition?: string;
+  frontHooks?: string;
+  backHooks?: string;
 }
 
 /**
@@ -51,18 +54,35 @@ export function canFormWord(word: string, letters: string): boolean {
   return blanksNeeded <= blankCount;
 }
 
+export interface WordEntry {
+  word: string;
+  definition?: string;
+  frontHooks?: string;
+  backHooks?: string;
+}
+
 /**
  * Unscrambles letters and returns all valid words from the dictionary
  */
-export function unscrambleWords(letters: string, dictionary: string[]): UnscrambleResult[] {
+export function unscrambleWords(
+  letters: string,
+  dictionary: string[],
+  wordMap?: Map<string, WordEntry>
+): UnscrambleResult[] {
   const results: UnscrambleResult[] = [];
 
   // Filter words that can be formed from the given letters
   for (const word of dictionary) {
     if (word.length <= letters.length && canFormWord(word, letters)) {
+      const wordUpper = word.toUpperCase();
+      const wordData = wordMap?.get(wordUpper);
+
       results.push({
-        word: word.toUpperCase(),
+        word: wordUpper,
         length: word.length,
+        definition: wordData?.definition,
+        frontHooks: wordData?.frontHooks,
+        backHooks: wordData?.backHooks,
       });
     }
   }
