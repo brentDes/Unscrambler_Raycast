@@ -10,6 +10,8 @@
     "Productivity"
   ],
   "license": "MIT",
+  "owner": "brentDes",
+  "access": "public",
   "commands": [
     {
       "name": "unscramble",

@@ -1,4 +1,4 @@
-import { getPreferenceValues } from "@raycast/api";
+import { environment, getPreferenceValues } from "@raycast/api";
 import { readFileSync } from "fs";
 import { join } from "path";
 
@@ -12,10 +12,11 @@ export interface Preferences {
 export function loadDictionary(): string[] {
   const preferences = getPreferenceValues<Preferences>();
   const dictionaryType = preferences.dictionary;
+  const assetsPath = environment.assetsPath;
 
   try {
     // Try to load the official dictionary file first
-    const dictionaryPath = join(__dirname, "..", "assets", `${dictionaryType}.txt`);
+    const dictionaryPath = join(assetsPath, `${dictionaryType}.txt`);
     const content = readFileSync(dictionaryPath, "utf-8");
     return content
       .split("\n")
@@ -25,7 +26,7 @@ export function loadDictionary(): string[] {
     // Fall back to sample dictionary if official dictionary not found
     console.warn(`${dictionaryType} dictionary not found, using sample dictionary`);
     try {
-      const samplePath = join(__dirname, "..", "assets", "sample-words.txt");
+      const samplePath = join(assetsPath, "sample-words.txt");
       const content = readFileSync(samplePath, "utf-8");
       return content
         .split("\n")
@@ -43,9 +44,10 @@ export function loadDictionary(): string[] {
  */
 export function getAvailableDictionaries(): string[] {
   const dictionaries: string[] = [];
+  const assetsPath = environment.assetsPath;
 
   try {
-    const cswPath = join(__dirname, "..", "assets", "CSW.txt");
+    const cswPath = join(assetsPath, "CSW.txt");
     readFileSync(cswPath, "utf-8");
     dictionaries.push("CSW");
   } catch {
@@ -53,7 +55,7 @@ export function getAvailableDictionaries(): string[] {
   }
 
   try {
-    const nwlPath = join(__dirname, "..", "assets", "NWL.txt");
+    const nwlPath = join(assetsPath, "NWL.txt");
     readFileSync(nwlPath, "utf-8");
     dictionaries.push("NWL");
   } catch {
