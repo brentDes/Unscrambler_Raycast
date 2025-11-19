@@ -13,7 +13,7 @@ function WordDetail({ result }: { result: UnscrambleResult }) {
 ${result.definition ? `## Definition\n${result.definition}\n` : ""}
 ${
   result.frontHooks || result.backHooks
-    ? `## Hooks\n${result.frontHooks ? `**Front hooks:** ${result.frontHooks}\n` : ""}${result.backHooks ? `**Back hooks:** ${result.backHooks}\n` : ""}`
+    ? `## Hooks\n${result.frontHooks ? `**Front hooks:** ${result.frontHooks}\n\n` : ""}${result.backHooks ? `**Back hooks:** ${result.backHooks}\n` : ""}`
     : ""
 }
 
@@ -104,7 +104,7 @@ export default function Command(props: { arguments: Arguments }) {
                     ...(result.frontHooks || result.backHooks
                       ? [
                           {
-                            text: `${result.frontHooks ? "←" + result.frontHooks : ""}${result.backHooks ? result.backHooks + "→" : ""}`,
+                            text: `${result.frontHooks ? "←" + result.frontHooks : ""}${result.frontHooks && result.backHooks ? " | " : ""}${result.backHooks ? result.backHooks + "→" : ""}`,
                             tooltip: "Hooks",
                           },
                         ]
