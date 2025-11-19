@@ -74,9 +74,9 @@ export function loadDictionary(): DictionaryData {
   const dictionaryType = preferences.dictionary;
   const assetsPath = environment.assetsPath;
 
-  // First, try to load the CSV file from src directory
+  // First, try to load the CSV file from assets directory
   try {
-    const csvPath = join(assetsPath, "..", "src", "csw24_complete_wordlist.csv");
+    const csvPath = join(assetsPath, "csw24_complete_wordlist.csv");
     const content = readFileSync(csvPath, "utf-8");
     console.log("Loaded CSV dictionary with definitions");
     return parseCSV(content);
